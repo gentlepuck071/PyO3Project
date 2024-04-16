@@ -18,7 +18,7 @@ class CustomStreamReader(StreamReader):
         super().__init__(*args, limit=1024*1024, **kwargs)
 
 
-class Client(c.Module):
+class Client(c.Module): 
 
     def __init__( 
             self,
@@ -34,7 +34,7 @@ class Client(c.Module):
             **kwargs
         ):
         self.loop = c.get_event_loop() if loop == None else loop
-        self.set_client(ip =ip,port = port)
+        self.set_client(ip =ip,port = port)  
         self.serializer = c.module(serializer)()
         self.key = c.get_key(key)
         self.my_ip = c.ip()
@@ -52,7 +52,7 @@ class Client(c.Module):
 
     def set_client(self,
             ip: str =None,
-            port: int = None ,
+            port: int = None ,  
             verbose: bool = False
             ):
         self.ip = ip if ip else c.default_ip
@@ -64,7 +64,7 @@ class Client(c.Module):
 
     def resolve_client(self, ip: str = None, port: int = None) -> None:
         if ip != None or port != None:
-            self.set_client(ip =ip,port = port)
+            self.set_client(ip =ip,port = port)  
     
 
 
@@ -81,7 +81,7 @@ class Client(c.Module):
         self.resolve_client(ip=ip, port=port)
         args = args if args else []
         kwargs = kwargs if kwargs else {}
-        url = f"http://{self.address}/{fn}/"
+        url = f"http://{self.address}/{fn}/"  
         input =  { 
                         "args": args,
                         "kwargs": kwargs,
