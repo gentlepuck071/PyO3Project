@@ -137,7 +137,7 @@ class Client(c.Module):
                         result = ''.join(result)
                         result = json.loads(result)  
 
-                elif response.content_type == 'application/json':  
+                elif response.content_type == 'application/json':   
                     # PROCESS JSON EVENTS
                     result = await asyncio.wait_for(response.json(), timeout=timeout)
                 elif response.content_type == 'text/plain':

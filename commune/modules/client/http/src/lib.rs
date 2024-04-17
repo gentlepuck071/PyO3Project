@@ -1,39 +1,32 @@
-use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
+use pyo3::prelude::*;
+use reqwest::Error;
 
-#[derive(Debug, Serialize, Deserialize)]
-struct Person {
-    first_name: String,
-    last_name: String,
+#[pyfunction]
+async fn post_it(url: String, json_data: String, headers: String) -> PyResult<()> {
+    async fn post(url: String, json_data: String, headers: String) -> Result<(), Error> {
+        let client = reqwest::Client::new();
+
+        let response = client
+            .post(&url)
+            .header("Content-Type", "application/json")
+            .header("headers", &headers)
+            .body(json_data)
+            .send()
+            .await?;
+
+        let response_body = response.text().await?;
+        println!("Response body:\n{}", response_body);
+
+        Ok(())
+    }
+
+    // Call the async function from a synchronous context
+    pyo3_asyncio::tokio::into_py(post(url, json_data, headers))
+        .map_err(|err| PyErr::new::<pyo3::exceptions::PyRuntimeError, _>(format!("{}", err)))
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-struct PersonResponse {
-    data: String,
-    method: String,
-    headers: HashMap<String, String>
-}
-
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let p = Person { 
-        first_name: "Foo".into(),
-        last_name: "Bar".into(),
-    };
-
-    let res = reqwest::Client::new()
-        .post("https://httpbin.org/anything")
-        .json(&p)
-        .send()
-        .await?;
-
-    let js = res
-        .json::<PersonResponse>()
-        .await?;
-
-    let person: Person = serde_json::from_str(&js.data)?;
-    println!("{:#?}", person);
-
-    println!("Headers: {:#?}", js.headers);
+#[pymodule]
+fn rust_py_function(py: Python, m: &PyModule) -> PyResult<()> {
+    m.add_function(wrap_pyfunction!(post_it, m)?)?;
     Ok(())
 }
