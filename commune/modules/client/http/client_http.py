@@ -135,9 +135,9 @@ class Client(c.Module):
                     if result.startswith('{') and result.endswith('}') or \
                         result.startswith('[') and result.endswith(']'):
                         result = ''.join(result)
-                        result = json.loads(result)
+                        result = json.loads(result)  
 
-                elif response.content_type == 'application/json':
+                elif response.content_type == 'application/json':  
                     # PROCESS JSON EVENTS
                     result = await asyncio.wait_for(response.json(), timeout=timeout)
                 elif response.content_type == 'text/plain':
