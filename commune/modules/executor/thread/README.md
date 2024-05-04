@@ -26,7 +26,7 @@ running tasks.
 [`CoreExecutor`]: https://fede1024.github.io/rust-scheduled-executor/scheduled_executor/executor/struct.CoreExecutor.html
 [`ThreadPoolExecutor`]: https://fede1024.github.io/rust-scheduled-executor/scheduled_executor/executor/struct.ThreadPoolExecutor.html
 
-### Task group
+### Task group  
 The scheduled-executor crate also provides an abstraction for the execution of groups of tasks
 called [`TaskGroup`]. A `TaskGroup` requires a method for the generation of the collection of
 tasks, which will be executed at the beginning of each cycle, and a method for the execution of
@@ -35,7 +35,7 @@ individual task, which will be executed for each task.
 
 
 [`TaskGroup`]: https://fede1024.github.io/rust-scheduled-executor/scheduled_executor/task_group/trait.TaskGroup.html
-[`task_group.rs`]: https://github.com/fede1024/rust-scheduled-executor/blob/master/examples/task_group.rs
+[`task_group.rs`]: https://github.com/fede1024/rust-scheduled-executor/blob/master/examples/task_group.rs  
 
 ### Documentation
 
